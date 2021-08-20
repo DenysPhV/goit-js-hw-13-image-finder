@@ -1,8 +1,4 @@
 // https://pixabay.com/api/?key=22979201-d3b88ee555cfd640fb3d2f529&q=yellow+flowers&image_type=photo&pretty=true
-import '@pnotify/core/dist/BrightTheme.css';
-import '@pnotify/core/dist/PNotify.css';
-
-import { info } from '@pnotify/core';
 
 const BASE_URL = 'https://pixabay.com/api/';
 const KEY_ACC = '22979201-d3b88ee555cfd640fb3d2f529';
@@ -15,7 +11,7 @@ class ServiceImage {
 
   fetchImage() {
     return fetch(
-      `${BASE_URL}?q=${this.searchQuery}&image_type=photo&orientation=horizontal&${this.page}&per_page=12&key=${KEY_ACC}`,
+      `${BASE_URL}?q=${this.searchQuery}&image_type=photo&orientation=horizontal&page=${this.page}&per_page=12&key=${KEY_ACC}`,
     )
       .then(response => {
         if (!response.ok) {
@@ -24,6 +20,7 @@ class ServiceImage {
         return response.json();
       })
       .then(({ hits }) => {
+        this.getPage();
         return hits;
       });
   }
