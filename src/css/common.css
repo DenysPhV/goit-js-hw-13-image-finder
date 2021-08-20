@@ -36,3 +36,35 @@ ul {
   height: 100%;
   margin: 0 auto;
 }
+
+.search-form {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 30px;
+}
+.search-input {
+  padding: 5px 10px;
+  min-width: 300px;
+  border: 1px solid rgba(173, 172, 172, 0.753);
+  border-radius: 3px;
+}
+.btn-form {
+  padding: 5px 10px;
+  border: 1px solid transparent;
+  border-radius: 5px;
+  background-color: rgb(1, 204, 255);
+  color: #fff;
+}
+.gallery {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  list-style: none;
+  margin: 10px 0;
+  padding: 0;
+}
+
+.btn-load {
+  display: block;
+  margin: 0 auto;
+}

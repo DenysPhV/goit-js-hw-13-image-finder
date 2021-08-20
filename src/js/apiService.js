@@ -1,7 +1,7 @@
 // https://pixabay.com/api/?key=22979201-d3b88ee555cfd640fb3d2f529&q=yellow+flowers&image_type=photo&pretty=true
-
 import '@pnotify/core/dist/BrightTheme.css';
 import '@pnotify/core/dist/PNotify.css';
+
 import { info } from '@pnotify/core';
 
 const BASE_URL = 'https://pixabay.com/api/';
@@ -17,16 +17,13 @@ class ServiceImage {
     return fetch(
       `${BASE_URL}?q=${this.searchQuery}&image_type=photo&orientation=horizontal&${this.page}&per_page=12&key=${KEY_ACC}`,
     )
-      .then(response => response.json())
-      .then(({ hits }) => {
-        if (this.length === 0) {
-          info({
-            title: 'You entered an invalid request!',
-            delay: 1500,
-            text: 'Nothing not found',
-          });
+      .then(response => {
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
         }
-        this.getPage();
+        return response.json();
+      })
+      .then(({ hits }) => {
         return hits;
       });
   }

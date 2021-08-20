@@ -10,13 +10,22 @@
   </head>
 
   <body>
-    <form class="search-form" id="search-form">
-      <input type="text" name="query" autocomplete="off" placeholder="Search images..." />
-      <button type="submit" class="btn-form">Fire</button>
-    </form>
+    <div class="container">
+      <form class="search-form" id="search-form">
+        <input
+          class="search-input"
+          type="text"
+          name="query"
+          autocomplete="off"
+          placeholder="Search images..."
+        />
+        <button type="submit" class="btn-form">Fire</button>
+      </form>
 
-    <ul class="gallery"></ul>
-    <button type="button" class="btn-load" data-action="load-more">continue watching</button>
+      <ul class="gallery"></ul>
+      <button type="button" class="btn-load" data-action="load-more">continue watching</button>
+    </div>
+
     <script src="index.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.7.7/handlebars.min.js"></script>
   </body>

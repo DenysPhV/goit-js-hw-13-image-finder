@@ -1,14 +1,6 @@
 // const debounce = require('lodash.debounce');
-// import loadBtn from './js/load-element';
-
-import '@pnotify/core/dist/PNotify.css';
-import '@pnotify/desktop/dist/PNotifyDesktop';
-import '@pnotify/core/dist/BrightTheme.css';
-
-import { error } from '@pnotify/core/dist/PNotify';
 
 import ServiceImage from './js/apiService';
-// import rejected from './js/pnotify';
 
 import refs from './js/refs';
 import imageCardTpl from './templates/image-card.hbs';
@@ -18,42 +10,26 @@ const apiService = new ServiceImage();
 function onInputChange(event) {
   event.preventDefault();
 
-  apiService.query = event.currentTarget.elements.query.value.trim();
-  //   if (event.currentTarget.elements.query.value === '') {
-  //     rejected();
-  //     return;
-  //   }
-
+  apiService.query = event.currentTarget.elements.query.value;
   apiService.resetPage();
   clearGallery();
 
-  apiService.fetchImage().then(data => {
-    if (data.length === 0) {
-      error({
-        title: 'Not found',
-        text: 'Please enter a more specific query',
-        addClass: 'error',
-        delay: 1500,
-      });
-    } else if (apiService.query.trim() === '') {
-      error({
-        title: 'Not found',
-        text: 'Please enter a more specific query',
-        addClass: 'error',
-        delay: 1500,
-      });
-    } else {
-      appendImagesMarkup(data);
-      refs.loadMoreBtn.classList.remove('hide');
-    }
-  });
+  apiService
+    .fetchImage()
+    .then(hits => {
+      appendImagesMarkup(hits);
+      apiService.getPage();
+    })
+    .catch(event => {
+      console.log('There has been a problem with your fetch operation: ' + event.message);
+    });
 }
 
 function onMoreLoad(event) {
   apiService
     .fetchImage()
     .then(appendImagesMarkup)
-    .then(() => {
+    .then(data => {
       refs.loadMoreBtn.scrollIntoView({
         behavior: 'smooth',
         block: 'end',
@@ -61,13 +37,12 @@ function onMoreLoad(event) {
     });
 }
 
-function clearGallery() {
-  refs.galleryList.innerHTML = '';
-  refs.loadMoreBtn.classList.add('hide');
-}
-
 function appendImagesMarkup(hits) {
   refs.galleryList.insertAdjacentHTML('beforeend', imageCardTpl(hits));
+}
+
+function clearGallery() {
+  refs.galleryList.innerHTML = '';
 }
 
 refs.formInput.addEventListener('submit', onInputChange);
