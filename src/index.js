@@ -1,11 +1,11 @@
 // const debounce = require('lodash.debounce');
+import * as basicLightbox from 'basiclightbox';
+
 import '@pnotify/core/dist/BrightTheme.css';
 import '@pnotify/core/dist/PNotify.css';
-
 import { error } from '@pnotify/core';
 
 import ServiceImage from './js/apiService';
-
 import refs from './js/refs';
 import imageCardTpl from './templates/image-card.hbs';
 
@@ -42,6 +42,22 @@ function onMoreLoad(event) {
     });
 }
 
+function onImageClick(event) {
+  const imageItem = event.target;
+
+  if (!imageItem.classList.contains('gallery-image')) {
+  }
+
+  const instance = basicLightbox.create(
+    `<img src="${imageItem.dataset.source}" width="800" height="600">`,
+    {
+      closable: true,
+    },
+  );
+
+  instance.show();
+}
+
 function appendImagesMarkup(hits) {
   refs.galleryList.insertAdjacentHTML('beforeend', imageCardTpl(hits));
 }
@@ -61,3 +77,4 @@ function scrollGallery() {
 }
 refs.formInput.addEventListener('submit', onInputChange);
 refs.loadMoreBtn.addEventListener('click', onMoreLoad);
+refs.galleryList.addEventListener('click', onImageClick);
